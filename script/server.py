@@ -27,6 +27,8 @@ app = Flask(__name__)
 
 CORS(app)
 
+url_main = os.getenv("URL_MAIN")
+
 # =========================================================
 # SSO (CONFIGURAÇÃO INTEGRAL E CORRIGIDA)
 # =========================================================
@@ -37,7 +39,7 @@ os.environ["HTTPS_PROXY"] = ""
 os.environ["NO_PROXY"] = "localhost,127.0.0.1,accounts.google.com"
 
 # Permitir apenas a porta 3000 e autorizar o envio de cookies de sessão
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True) 
+CORS(app, origins=[url_main], supports_credentials=True) 
 
 app.secret_key = "uma_chave_aleatoria_e_muito_segura"
 
@@ -99,7 +101,7 @@ def auth_callback():
         r"C:\Caio\sql\adm_esc.db",
         email_usuario
     ):
-        return redirect('http://localhost:3000/?pagina=login_notAut')
+        return redirect(f'{url_main}/?pagina=login_notAut')
 
     session['user'] = {
         'id': user_info.get('sub'),
@@ -108,7 +110,7 @@ def auth_callback():
         'picture': user_info.get('picture')
     }
 
-    return redirect('http://localhost:3000/')
+    return redirect(url_main)
 
 
 # 3. Rota de verificação utilizada pelo React

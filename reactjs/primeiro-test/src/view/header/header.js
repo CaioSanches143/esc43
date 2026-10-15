@@ -2,9 +2,12 @@ import "./Header.css";
 import logo from "../img/logo_aep.png";
 import { useAuth } from "../../context/AuthContext";
 
+const url_flask = process.env.REACT_APP_URL_FLASK;
+
 function Header({ onNavegar }) {
   const { user, logout } = useAuth();
   const a = true;
+
 
   async function sair() {
     try {
@@ -15,7 +18,7 @@ function Header({ onNavegar }) {
   }
 
     function iniciarLoginSSO() {
-    window.location.href = "http://localhost:5000/login";
+    window.location.href = `${url_flask}/login`;
   }
 
   return (
