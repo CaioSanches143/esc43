@@ -1,0 +1,6 @@
+flask
+flask-cors
+reportlab
+authlib
+requests
+python-dotenv
