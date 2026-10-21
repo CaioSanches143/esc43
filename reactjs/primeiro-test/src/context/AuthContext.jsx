@@ -1,16 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
-const url_flask = process.env.REACT_APP_URL_FLASK;
-
+const reactAppApiUrl = process.env.REACT_APP_URL_FLASK;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
 
+
   useEffect(() => {
-    fetch(`${url_flask}/api/me`, {
+    fetch(`${reactAppApiUrl}/api/me`, {
       credentials: "include",
     })
       .then((response) => (response.ok ? response.json() : null))
@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
 
   async function logout() {
     try {
-      await fetch(`${url_flask}/logout`, {
+      await fetch(`${reactAppApiUrl}/logout`, {
         credentials: "include",
       });
     } finally {

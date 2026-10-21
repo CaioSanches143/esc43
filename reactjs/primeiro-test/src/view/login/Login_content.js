@@ -1,15 +1,13 @@
 import "./Login_content.css";
 import { useAuth } from "../../context/AuthContext";
 
-
-const url_flask = process.env.REACT_APP_URL_FLASK;
+const reactAppUrlFlask = process.env.REACT_APP_URL_FLASK;
 
 function Login_content() {
-
   const { user, loading, logout } = useAuth();
 
   function iniciarLoginGoogle() {
-     window.location.href = `${url_flask}login`;
+    window.location.href = `${reactAppUrlFlask}/login`;
   }
 
   if (loading) {

@@ -125,83 +125,87 @@ function Produto_content() {
     return (
         <div className="cliente-container">
 
-            {/* NOVO ITEM */}
-            <div className="novo-escoteiro">
+            <div className="produto-controles">
+                {/* NOVO ITEM */}
+                <div className="novo-escoteiro">
 
-                <input
-                    type="text"
-                    name="nome_item"
-                    placeholder="Nome do item"
-                    value={novoItem.nome_item}
-                    onChange={handleNovoItem}
-                />
+                    <input
+                        type="text"
+                        name="nome_item"
+                        placeholder="Nome do item"
+                        value={novoItem.nome_item}
+                        onChange={handleNovoItem}
+                    />
 
-                <input
-                    type="text"
-                    name="desc_item"
-                    placeholder="Descrição"
-                    value={novoItem.desc_item}
-                    onChange={handleNovoItem}
-                />
+                    <input
+                        type="text"
+                        name="desc_item"
+                        placeholder="Descrição"
+                        value={novoItem.desc_item}
+                        onChange={handleNovoItem}
+                    />
 
-                <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    name="preco_item"
-                    placeholder="Preço"
-                    value={novoItem.preco_item}
-                    onChange={handleNovoItem}
-                />
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="preco_item"
+                        placeholder="Preço"
+                        value={novoItem.preco_item}
+                        onChange={handleNovoItem}
+                    />
 
-                <button onClick={adicionarItem}>
-                    Adicionar
-                </button>
+                    <button onClick={adicionarItem}>
+                        Adicionar
+                    </button>
 
-            </div>
+                </div>
 
 
-            {/* PESQUISA */}
-            <div className="pesquisa-container">
+                {/* PESQUISA */}
+                <div className="pesquisa-container">
 
-                <input
-                    type="text"
-                    placeholder="Pesquisar item..."
-                    value={pesquisa}
-                    onChange={(e) => setPesquisa(e.target.value)}
-                />
+                    <input
+                        type="text"
+                        placeholder="Pesquisar item..."
+                        value={pesquisa}
+                        onChange={(e) => setPesquisa(e.target.value)}
+                    />
 
+                </div>
             </div>
 
 
             {/* TABELA */}
-            <table>
+            <div className="itens-lista">
+                <table>
 
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {itensFiltrados.map((item) => (
-
-                        <tr key={item.id_item}>
-                            <td>{item.id_item}</td>
-                            <td>{item.nome_item}</td>
-                            <td>{item.desc_item}</td>
-                            <td>€ {formatarPreco(item.preco_item)}</td>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Preço</th>
                         </tr>
+                    </thead>
 
-                    ))}
+                    <tbody>
 
-                </tbody>
+                        {itensFiltrados.map((item) => (
 
-            </table>
+                            <tr key={item.id_item}>
+                                <td>{item.id_item}</td>
+                                <td>{item.nome_item}</td>
+                                <td>{item.desc_item}</td>
+                                <td>€ {formatarPreco(item.preco_item)}</td>
+                            </tr>
+
+                        ))}
+
+                    </tbody>
+
+                </table>
+            </div>
 
         </div>
     );

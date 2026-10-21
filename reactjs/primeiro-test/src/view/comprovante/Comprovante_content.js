@@ -1,7 +1,7 @@
 import "./Comprovante_content.css";
 import { useEffect, useState } from "react";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_URL_FLASK;
 
 function Comprovante_content() {
 
@@ -608,6 +608,9 @@ function Comprovante_content() {
                             "Content-Type":
                                 "application/json"
                         },
+
+                        credentials:
+                            "include",
 
                         body:
                             JSON.stringify({

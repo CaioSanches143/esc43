@@ -122,91 +122,95 @@ function Cliente_content() {
     return (
         <div className="cliente-container">
 
-            {/* NOVO ESCOTEIRO */}
-            <div className="novo-escoteiro">
+            <div className="cliente-controles">
+                {/* NOVO ESCOTEIRO */}
+                <div className="novo-escoteiro">
 
-                <input
-                    type="text"
-                    name="nome"
-                    placeholder="Nome"
-                    value={novoEscoteiro.nome}
-                    onChange={handleNovoEscoteiro}
-                />
+                    <input
+                        type="text"
+                        name="nome"
+                        placeholder="Nome"
+                        value={novoEscoteiro.nome}
+                        onChange={handleNovoEscoteiro}
+                    />
 
-                <input
-                    type="text"
-                    name="totem"
-                    placeholder="Totem"
-                    value={novoEscoteiro.totem}
-                    onChange={handleNovoEscoteiro}
-                />
+                    <input
+                        type="text"
+                        name="totem"
+                        placeholder="Totem"
+                        value={novoEscoteiro.totem}
+                        onChange={handleNovoEscoteiro}
+                    />
 
-                <input
-                    type="text"
-                    name="nome_encarregado"
-                    placeholder="Encarregado"
-                    value={novoEscoteiro.nome_encarregado}
-                    onChange={handleNovoEscoteiro}
-                />
+                    <input
+                        type="text"
+                        name="nome_encarregado"
+                        placeholder="Encarregado"
+                        value={novoEscoteiro.nome_encarregado}
+                        onChange={handleNovoEscoteiro}
+                    />
 
-                <input
-                    type="email"
-                    name="email_encarregado"
-                    placeholder="Email"
-                    value={novoEscoteiro.email_encarregado}
-                    onChange={handleNovoEscoteiro}
-                />
+                    <input
+                        type="email"
+                        name="email_encarregado"
+                        placeholder="Email"
+                        value={novoEscoteiro.email_encarregado}
+                        onChange={handleNovoEscoteiro}
+                    />
 
-                <button onClick={adicionarEscoteiro}>
-                    Adicionar
-                </button>
+                    <button onClick={adicionarEscoteiro}>
+                        Adicionar
+                    </button>
 
-            </div>
+                </div>
 
 
-            {/* PESQUISA */}
-            <div className="pesquisa-container">
+                {/* PESQUISA */}
+                <div className="pesquisa-container">
 
-                <input
-                    type="text"
-                    placeholder="Pesquisar escoteiro..."
-                    value={pesquisa}
-                    onChange={(e) => setPesquisa(e.target.value)}
-                />
+                    <input
+                        type="text"
+                        placeholder="Pesquisar escoteiro..."
+                        value={pesquisa}
+                        onChange={(e) => setPesquisa(e.target.value)}
+                    />
 
+                </div>
             </div>
 
 
             {/* TABELA */}
-            <table>
+            <div className="escoteiros-lista">
+                <table>
 
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Totem</th>
-                        <th>Encarregado</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {escoteirosFiltrados.map((escoteiro) => (
-
-                        <tr key={escoteiro.id_escoteiro}>
-                            <td>{escoteiro.id_escoteiro}</td>
-                            <td>{escoteiro.nome}</td>
-                            <td>{escoteiro.totem}</td>
-                            <td>{escoteiro.nome_encarregado}</td>
-                            <td>{escoteiro.email_encarregado}</td>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Totem</th>
+                            <th>Encarregado</th>
+                            <th>Email</th>
                         </tr>
+                    </thead>
 
-                    ))}
+                    <tbody>
 
-                </tbody>
+                        {escoteirosFiltrados.map((escoteiro) => (
 
-            </table>
+                            <tr key={escoteiro.id_escoteiro}>
+                                <td>{escoteiro.id_escoteiro}</td>
+                                <td>{escoteiro.nome}</td>
+                                <td>{escoteiro.totem}</td>
+                                <td>{escoteiro.nome_encarregado}</td>
+                                <td>{escoteiro.email_encarregado}</td>
+                            </tr>
+
+                        ))}
+
+                    </tbody>
+
+                </table>
+            </div>
 
         </div>
     );

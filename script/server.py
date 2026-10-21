@@ -24,10 +24,18 @@ import requests
 load_dotenv(Path(__file__).resolve().parent.parent / "reactjs" / "primeiro-test" / ".env")
 
 app = Flask(__name__)
+secret_key = os.getenv("SECRET_KEY")
+if not secret_key:
+    raise RuntimeError(
+        "SECRET_KEY precisa estar definida em reactjs/primeiro-test/.env"
+    )
+app.config["SECRET_KEY"] = secret_key
 
 CORS(app)
 
 url_main = os.getenv("URL_MAIN")
+sql_path = os.getenv("SQL_PATH")
+img_logo_aep = os.getenv("IMG_LOGO_AEP")
 
 # =========================================================
 # SSO (CONFIGURAÇÃO INTEGRAL E CORRIGIDA)
@@ -41,8 +49,6 @@ os.environ["NO_PROXY"] = "localhost,127.0.0.1,accounts.google.com"
 # Permitir apenas a porta 3000 e autorizar o envio de cookies de sessão
 CORS(app, origins=[url_main], supports_credentials=True) 
 
-app.secret_key = "uma_chave_aleatoria_e_muito_segura"
-
 # Inicializa o gerenciador OAuth
 oauth = OAuth(app)
 
@@ -53,6 +59,10 @@ custom_session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win6
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
+google_redirect_uri = os.getenv(
+    "GOOGLE_REDIRECT_URI",
+    "http://localhost:5000/auth/callback"
+)
 
 if not client_id or not client_secret:
     raise RuntimeError(
@@ -82,8 +92,7 @@ google.session = custom_session
 # 1. Rota que o Frontend chama para iniciar o Login
 @app.route('/login')
 def login():
-    redirect_uri = url_for('auth_callback', _external=True)
-    return google.authorize_redirect(redirect_uri)
+    return google.authorize_redirect(google_redirect_uri)
 
 
 # 2. Rota de Callback (Onde o login é processado)
@@ -98,7 +107,7 @@ def auth_callback():
 
     email_usuario = user_info.get('email')
     if not email_usuario or not sql_load.is_registered_user_email(
-        r"C:\Caio\sql\adm_esc.db",
+        sql_path,
         email_usuario
     ):
         return redirect(f'{url_main}/?pagina=login_notAut')
@@ -137,7 +146,7 @@ def logout():
 def get_escoteiros():
 
     escoteiros = sql_load.get_escoteiros(
-        r"C:\Caio\sql\adm_esc.db"
+        sql_path
     )
 
     return jsonify(escoteiros)
@@ -167,7 +176,7 @@ def add_escoteiro():
     try:
 
         sql_load.add_escoteiro(
-            r"C:\Caio\sql\adm_esc.db",
+            sql_path,
             nome,
             totem,
             nome_encarregado,
@@ -193,7 +202,7 @@ def add_escoteiro():
 def get_itens():
 
     itens = sql_load.get_itens(
-        r"C:\Caio\sql\adm_esc.db"
+        sql_path
     )
 
     return jsonify(itens)
@@ -241,7 +250,7 @@ def add_item():
     try:
 
         sql_load.add_item(
-            r"C:\Caio\sql\adm_esc.db",
+            sql_path,
             nome_item,
             desc_item,
             preco_item
@@ -265,7 +274,7 @@ def add_item():
 def get_users():
 
     users = sql_load.get_users(
-        r"C:\Caio\sql\adm_esc.db"
+        sql_path
     )
 
     return jsonify(users)
@@ -291,6 +300,15 @@ def gerar_comprovante():
             return jsonify({
                 "erro": "Nenhum dado foi recebido."
             }), 400
+
+        usuario = session.get("user")
+
+        if not usuario:
+            return jsonify({
+                "erro": "É necessário estar autenticado para gerar o comprovante."
+            }), 401
+
+        nome_usuario = usuario.get("name") or usuario.get("email")
 
         cliente = dados.get("cliente")
 
@@ -342,6 +360,19 @@ def gerar_comprovante():
             buffer
         )
 
+        def escrever_rodape():
+            pdf.setFont(
+                "Helvetica",
+                9
+            )
+
+            pdf.drawString(
+                50,
+                30,
+                f'Comprovante registrado por {nome_usuario} e criado '
+                "automaticamente pelo sistema."
+            )
+
         pdf.setTitle(
             "Comprovante de venda"
         )
@@ -352,7 +383,7 @@ def gerar_comprovante():
         # =================================================
 
         logo = ImageReader(
-            "./reactjs/primeiro-test/src/view/img/baner_aep.jpg"
+            img_logo_aep
         )
 
         # -------------------------------------------------
@@ -526,7 +557,7 @@ def gerar_comprovante():
         pdf.drawString(
             50,
             551,
-            f"Encarregado: {nome_encarregado}"
+            f"Encarregada(o): {nome_encarregado}"
         )
 
 
@@ -685,6 +716,8 @@ def gerar_comprovante():
 
             if y < 80:
 
+                escrever_rodape()
+
                 pdf.showPage()
 
                 y = 800
@@ -736,20 +769,7 @@ def gerar_comprovante():
         # RODAPÉ
         # =================================================
 
-        y -= 50
-
-
-        pdf.setFont(
-            "Helvetica",
-            9
-        )
-
-
-        pdf.drawString(
-            50,
-            y,
-            "Comprovante gerado automaticamente pelo sistema."
-        )
+        escrever_rodape()
 
 
         # =================================================

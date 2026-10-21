@@ -220,3 +220,59 @@ table tbody tr:hover {
         width: 100%;
     }
 }
+
+.cliente-container {
+    height: calc(100vh - 71px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.produto-controles {
+    flex: 0 0 auto;
+    z-index: 2;
+    background: #ffffff;
+}
+
+.produto-controles .novo-escoteiro {
+    margin-top: 16px;
+}
+
+.produto-controles .pesquisa-container {
+    margin-top: 12px;
+}
+
+.itens-lista {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+.itens-lista table {
+    margin: 24px auto;
+}
+
+.itens-lista thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .produto-controles .novo-escoteiro {
+        margin-top: 12px;
+    }
+
+    .produto-controles .pesquisa-container {
+        margin-top: 8px;
+    }
+
+    .itens-lista table {
+        display: table;
+        width: calc(100% - 32px);
+        min-width: 560px;
+        margin: 16px;
+    }
+}

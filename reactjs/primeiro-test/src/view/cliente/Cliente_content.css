@@ -72,13 +72,6 @@ table tbody td:first-child {
         white-space: nowrap;
     }
 }
-```
-
-### Se quiseres deixar ainda mais parecido com o `header`
-
-Eu acrescentaria uma pequena animação na linha quando passas o rato:
-
-```css
 table tbody tr {
     position: relative;
     transition:
@@ -224,5 +217,61 @@ table tbody tr:hover {
 
     .btn-finalizar {
         width: 100%;
+    }
+}
+
+.cliente-container {
+    height: calc(100vh - 71px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cliente-controles {
+    flex: 0 0 auto;
+    z-index: 2;
+    background: #ffffff;
+}
+
+.cliente-controles .novo-escoteiro {
+    margin-top: 16px;
+}
+
+.cliente-controles .pesquisa-container {
+    margin-top: 12px;
+}
+
+.escoteiros-lista {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+.escoteiros-lista table {
+    margin: 24px auto;
+}
+
+.escoteiros-lista thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .cliente-controles .novo-escoteiro {
+        margin-top: 12px;
+    }
+
+    .cliente-controles .pesquisa-container {
+        margin-top: 8px;
+    }
+
+    .escoteiros-lista table {
+        display: table;
+        width: calc(100% - 32px);
+        min-width: 720px;
+        margin: 16px;
     }
 }
