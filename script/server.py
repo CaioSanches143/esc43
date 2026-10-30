@@ -36,6 +36,7 @@ CORS(app)
 url_main = os.getenv("URL_MAIN")
 sql_path = os.getenv("SQL_PATH")
 img_logo_aep = os.getenv("IMG_LOGO_AEP")
+react_app_url_flask = os.getenv("REACT_APP_URL_FLASK")
 
 # =========================================================
 # SSO (CONFIGURAÇÃO INTEGRAL E CORRIGIDA)
@@ -61,7 +62,7 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 google_redirect_uri = os.getenv(
     "GOOGLE_REDIRECT_URI",
-    "http://localhost:5000/auth/callback"
+    f"{react_app_url_flask}/auth/callback"
 )
 
 if not client_id or not client_secret:
